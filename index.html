@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A Little Birthday Surprise 🎂</title>
+  <style>
+    :root { --pink: #ff6f91; --purple: #8b5cf6; --cream: #fff8f0; --ink: #35233b; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; display: grid; place-items: center;
+      padding: 24px; color: var(--ink); font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+      background: radial-gradient(circle at top left, #ffe1eb, transparent 42%),
+                  linear-gradient(135deg, #fff8f0, #f2e8ff);
+      overflow-x: hidden;
+    }
+    .card {
+      width: min(680px, 100%); text-align: center; padding: clamp(28px, 6vw, 56px);
+      background: rgba(255,255,255,.88); border: 1px solid #ffffff;
+      border-radius: 28px; box-shadow: 0 24px 70px #6b3a6a1f;
+    }
+    .cake { font-size: 4rem; animation: bob 2s ease-in-out infinite; }
+    h1 { font-size: clamp(2.1rem, 7vw, 4rem); line-height: 1.08; margin: 12px 0; }
+    .highlight { color: var(--pink); }
+    p { font-size: 1.08rem; line-height: 1.7; }
+    button {
+      border: 0; border-radius: 999px; padding: 14px 24px; margin-top: 14px;
+      color: white; font-weight: 700; font-size: 1rem; cursor: pointer;
+      background: linear-gradient(120deg, var(--pink), var(--purple));
+      box-shadow: 0 10px 22px #8b5cf633; transition: transform .2s;
+    }
+    button:hover { transform: translateY(-2px) scale(1.02); }
+    #surprise { display: none; margin-top: 24px; padding: 20px; border-radius: 18px; background: var(--cream); }
+    #surprise.show { display: block; animation: appear .5s ease-out; }
+    .hearts { font-size: 1.6rem; letter-spacing: .35rem; }
+    footer { margin-top: 28px; font-size: .85rem; opacity: .7; }
+    .confetti { position: fixed; top: -20px; pointer-events: none; animation: fall linear forwards; z-index: 5; }
+    @keyframes bob { 50% { transform: translateY(-8px) rotate(2deg); } }
+    @keyframes appear { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fall { to { transform: translateY(110vh) rotate(720deg); opacity: .9; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="cake" aria-hidden="true">🎂</div>
+    <p>Today is all about you!</p>
+    <h1>Happy Birthday, <span class="highlight">[Name]!</span> 🎉</h1>
+    <p>
+      A little page for a very special person. I hope your day is full of
+      laughter, lovely surprises, and all the happiness you deserve.
+    </p>
+    <button id="surpriseButton" type="button">Open your surprise 💌</button>
+    <section id="surprise" aria-live="polite">
+      <div class="hearts" aria-hidden="true">💖 ✨ 💖</div>
+      <h2>A special message for you</h2>
+      <p>
+        Thank you for being wonderfully you. May this new year of your life bring
+        beautiful memories, big dreams, and a hundred little reasons to smile.
+      </p>
+      <p><strong>With lots of love,</strong><br />[Your Name]</p>
+    </section>
+    <footer>Made with ❤️ just for you</footer>
+  </main>
+  <script>
+    const button = document.getElementById('surpriseButton');
+    const surprise = document.getElementById('surprise');
+    const symbols = ['💖', '✨', '🎉', '💕', '🌸', '⭐'];
+
+    button.addEventListener('click', () => {
+      surprise.classList.add('show');
+      button.textContent = 'Surprise opened! 💗';
+      button.disabled = true;
+      for (let i = 0; i < 36; i++) {
+        const piece = document.createElement('span');
+        piece.className = 'confetti';
+        piece.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        piece.style.left = Math.random() * 100 + 'vw';
+        piece.style.animationDuration = (2 + Math.random() * 3) + 's';
+        piece.style.fontSize = (16 + Math.random() * 18) + 'px';
+        document.body.appendChild(piece);
+        piece.addEventListener('animationend', () => piece.remove());
+      }
+    });
+  </script>
+</body>
+</html>
